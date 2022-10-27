@@ -68,7 +68,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public List<Long> getCustomerIdsByFirstName(String firstName) {
-        String sql = "SELECT c.id FROM " + CUSTOMER_TABLE_NAME + " AS c WHERE first_name = ?";
+        String sql = "SELECT c.id FROM " + CUSTOMER_TABLE_NAME + " AS c WHERE c.first_name = ?";
         try {
             return jdbcTemplate.queryForList(sql, Long.class, firstName);
         } catch (EmptyResultDataAccessException error){
