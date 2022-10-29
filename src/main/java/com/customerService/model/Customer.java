@@ -5,9 +5,9 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String email;
-    private String status;
+    private CustomerStatus status;
 
-    public Customer(Long id, String firstName, String lastName, String email, String status) {
+    public Customer(Long id, String firstName, String lastName, String email, CustomerStatus status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,7 +31,7 @@ public class Customer {
         return email;
     }
 
-    public String getStatus() {
+    public CustomerStatus getStatus() {
         return status;
     }
 
@@ -51,7 +51,7 @@ public class Customer {
         this.email = email;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(CustomerStatus status) {
         this.status = status;
     }
 }

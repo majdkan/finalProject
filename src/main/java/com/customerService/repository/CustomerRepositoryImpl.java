@@ -1,6 +1,7 @@
 package com.customerService.repository;
 
 import com.customerService.model.Customer;
+import com.customerService.model.CustomerStatus;
 import com.customerService.repository.mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,8 +20,8 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public void createCustomer(Customer customer) {
-        String sql = "INSERT INTO " + CUSTOMER_TABLE_NAME + " (first_name, last_name, email) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, customer.getFirstName(), customer.getLastName(), customer.getEmail());
+        String sql = "INSERT INTO " + CUSTOMER_TABLE_NAME + " (first_name, last_name, email, status) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, customer.getFirstName(), customer.getLastName(), customer.getEmail(), customer.getStatus().name());
     }
 
     @Override
@@ -72,6 +73,16 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         try {
             return jdbcTemplate.queryForList(sql, Long.class, firstName);
         } catch (EmptyResultDataAccessException error){
+            return null;
+        }
+    }
+
+    @Override
+    public List<Customer> getAllCustomersByStatus(CustomerStatus status) {
+        String sql = "SELECT * FROM " + CUSTOMER_TABLE_NAME + " AS C WHERE C.status = ?";
+        try {
+            return jdbcTemplate.query(sql, new CustomerMapper(), status.name());
+        } catch (EmptyResultDataAccessException error) {
             return null;
         }
     }

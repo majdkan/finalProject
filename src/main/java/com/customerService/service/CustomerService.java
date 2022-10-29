@@ -1,17 +1,15 @@
-package com.customerService.repository;
+package com.customerService.service;
 
 import com.customerService.model.Customer;
-import com.customerService.model.CustomerStatus;
 
 import java.util.List;
 
-public interface CustomerRepository {
-    void createCustomer(Customer customer);
-    void updateCustomerById(Long customerId, Customer customer);
+public interface CustomerService {
+    void createCustomer(Customer customer) throws Exception;
+    void updateCustomerById(Long customerId, Customer customer) throws Exception;
     void deleteCustomerById(Long id);
     Customer getCustomerById(Long id);
     List<Customer> getCustomersByFirstName(String firstName);
     List<Customer> getAllCustomers();
     List<Long> getCustomerIdsByFirstName(String firstName);
-    List<Customer> getAllCustomersByStatus(CustomerStatus status);
 }
