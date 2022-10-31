@@ -20,10 +20,6 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void createCustomer(Customer customer) throws Exception {
-        System.out.println("Starting to create new customer as string: " + objectMapper.writeValueAsString(customer));
-        String customerAsString = objectMapper.writeValueAsString(customer);
-        Customer customerFromString = objectMapper.readValue(customerAsString, Customer.class);
-        System.out.println("Starting to create new customer as object: " + customerFromString);
         if(customer.getStatus() == CustomerStatus.VIP){
             List<Customer> vipCustomers = customerRepository.getAllCustomersByStatus(CustomerStatus.VIP);
             if(vipCustomers.size() < 10 ) {
@@ -56,8 +52,13 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public void deleteCustomerById(Long id) {
-        deleteCustomerById(id);
+    public void deleteCustomerById(Long id) throws Exception {
+        Customer existingCustomer =  customerRepository.getCustomerById(id);
+        if(existingCustomer != null){
+            customerRepository.deleteCustomerById(id);
+        } else {
+            throw new Exception("The customer id: " + id + " is not existing, so we can't delete it");
+        }
     }
 
     @Override
