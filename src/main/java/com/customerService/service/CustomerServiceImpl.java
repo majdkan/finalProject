@@ -19,16 +19,16 @@ public class CustomerServiceImpl implements CustomerService{
     ObjectMapper objectMapper;
 
     @Override
-    public void createCustomer(Customer customer) throws Exception {
+    public Long createCustomer(Customer customer) throws Exception {
         if(customer.getStatus() == CustomerStatus.VIP){
             List<Customer> vipCustomers = customerRepository.getAllCustomersByStatus(CustomerStatus.VIP);
             if(vipCustomers.size() < 10 ) {
-                customerRepository.createCustomer(customer);
+                return customerRepository.createCustomer(customer);
             } else {
                 throw new Exception("Can't create new customer with VIP status, Out of limit");
             }
         } else {
-            customerRepository.createCustomer(customer);
+            return customerRepository.createCustomer(customer);
         }
     }
 

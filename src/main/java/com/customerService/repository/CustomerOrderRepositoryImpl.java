@@ -1,12 +1,16 @@
 package com.customerService.repository;
 
 import com.customerService.model.CustomerOrder;
+import com.customerService.model.CustomerOrderRequest;
+import com.customerService.model.CustomerOrderResponse;
 import com.customerService.repository.mapper.CustomerMapper;
 import com.customerService.repository.mapper.CustomerOrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class CustomerOrderRepositoryImpl implements CustomerOrderRepository{
@@ -40,6 +44,16 @@ public class CustomerOrderRepositoryImpl implements CustomerOrderRepository{
         String sql = "SELECT * FROM " + CUSTOMER_ORDER_TABLE_NAME + " WHERE id=?";
         try {
             return jdbcTemplate.queryForObject(sql, new CustomerOrderMapper(), id);
+        } catch (EmptyResultDataAccessException error){
+            return null;
+        }
+    }
+
+    @Override
+    public List<CustomerOrder> getCustomerOrdersByCustomerId(Long customerId) {
+        String sql = "SELECT * FROM " + CUSTOMER_ORDER_TABLE_NAME + " WHERE customer_id=?";
+        try {
+            return jdbcTemplate.query(sql, new CustomerOrderMapper(), customerId);
         } catch (EmptyResultDataAccessException error){
             return null;
         }

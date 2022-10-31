@@ -1,6 +1,8 @@
 package com.customerService.controller;
 
 import com.customerService.model.CustomerOrder;
+import com.customerService.model.CustomerOrderRequest;
+import com.customerService.model.CustomerOrderResponse;
 import com.customerService.service.CustomerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +14,8 @@ public class CustomerOrderController {
     private CustomerOrderService customerOrderService;
 
     @PostMapping(value = "/customerOrder/create")
-    public void createCustomerOrder(@RequestBody CustomerOrder customerOrder) throws Exception {
-        customerOrderService.createCustomerOrder(customerOrder);
+    public CustomerOrderResponse createCustomerOrder(@RequestBody CustomerOrderRequest customerOrderRequest) throws Exception {
+        return customerOrderService.createCustomerOrder(customerOrderRequest);
     }
 
     @PutMapping(value = "/customerOrder/{customerOrderId}/update")

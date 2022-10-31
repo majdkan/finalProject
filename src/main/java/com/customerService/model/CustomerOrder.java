@@ -1,6 +1,7 @@
 package com.customerService.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 public class CustomerOrder {
     private Long id;
@@ -55,5 +56,12 @@ public class CustomerOrder {
 
     public void setCurrency(CustomerOrderCurrency currency) {
         this.currency = currency;
+    }
+
+    public CustomerOrderResponse toCustomerOrderResponse(Customer customer, List<CustomerOrder> customerOrderList){
+        return new CustomerOrderResponse(
+                customer,
+                customerOrderList
+        );
     }
 }

@@ -15,8 +15,8 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping(value = "/customer/create")
-    public void createCustomer(@RequestBody Customer customer) throws Exception {
-        customerService.createCustomer(customer);
+    public Long createCustomer(@RequestBody Customer customer) throws Exception {
+        return customerService.createCustomer(customer);
     }
 
     @PutMapping(value = "/customer/{customerId}/update")
