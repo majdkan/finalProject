@@ -2,7 +2,9 @@ package com.customerService.controller;
 
 
 import com.customerService.model.Customer;
+import com.customerService.model.InternalCustomer;
 import com.customerService.service.CustomerService;
+import com.customerService.service.InternalCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private InternalCustomerService internalCustomerService;
 
     @PostMapping(value = "/customer/create")
     public Long createCustomer(@RequestBody Customer customer) throws Exception {
@@ -48,6 +53,11 @@ public class CustomerController {
     @GetMapping(value = "/customerId/{firstName}/all")
     public List<Long> getCustomerIdsByFirstName(@PathVariable String firstName){
         return customerService.getCustomerIdsByFirstName(firstName);
+    }
+
+    @GetMapping(value = "internalCustomer/{customerId}")
+    public InternalCustomer getInternalCustomerById(@PathVariable Long customerId){
+        return internalCustomerService.getInternalCustomerById(customerId);
     }
 }
 
