@@ -21,3 +21,8 @@ externalApi:
   customerService:
     url: localhost:8082
 
+redis:
+  host: localhost
+  port: 6380
+  ttl: 1000
+

@@ -5,6 +5,7 @@ import com.customerService.model.Customer;
 import com.customerService.model.InternalCustomer;
 import com.customerService.service.CustomerService;
 import com.customerService.service.InternalCustomerService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/customer/{customerId}")
-    public Customer getCustomerById(@PathVariable Long customerId){
+    public Customer getCustomerById(@PathVariable Long customerId) throws JsonProcessingException {
         return customerService.getCustomerById(customerId);
     }
 

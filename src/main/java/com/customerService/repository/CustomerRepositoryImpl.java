@@ -3,6 +3,9 @@ package com.customerService.repository;
 import com.customerService.model.Customer;
 import com.customerService.model.CustomerStatus;
 import com.customerService.repository.mapper.CustomerMapper;
+import com.customerService.repository.redis.CacheRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +20,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private CacheRepository cacheRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public Long createCustomer(Customer customer) {
@@ -39,12 +48,21 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public Customer getCustomerById(Long id) {
-        String sql = "SELECT * FROM " + CUSTOMER_TABLE_NAME + " WHERE id=?";
-        try {
-            return jdbcTemplate.queryForObject(sql, new CustomerMapper(), id);
-        } catch (EmptyResultDataAccessException error){
-            return null;
+    public Customer getCustomerById(Long id) throws JsonProcessingException {
+        String customerFromCacheAsString = cacheRepository.getCacheEntity(id.toString());
+        if(customerFromCacheAsString == null){
+            String sql = "SELECT * FROM " + CUSTOMER_TABLE_NAME + " WHERE id=?";
+            try {
+                Customer customerFromDB = jdbcTemplate.queryForObject(sql, new CustomerMapper(), id);
+                String customerAsString = objectMapper.writeValueAsString(customerFromDB);
+                cacheRepository.createCacheEntity(customerFromDB.getId().toString(), customerAsString);
+                return customerFromDB;
+            } catch (EmptyResultDataAccessException error){
+                return null;
+            }
+        } else {
+            Customer customerFromCacheAsObject = objectMapper.readValue(customerFromCacheAsString, Customer.class);
+            return customerFromCacheAsObject;
         }
     }
 

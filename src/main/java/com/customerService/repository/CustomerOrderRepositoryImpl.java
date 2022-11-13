@@ -1,9 +1,6 @@
 package com.customerService.repository;
 
 import com.customerService.model.CustomerOrder;
-import com.customerService.model.CustomerOrderRequest;
-import com.customerService.model.CustomerOrderResponse;
-import com.customerService.repository.mapper.CustomerMapper;
 import com.customerService.repository.mapper.CustomerOrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

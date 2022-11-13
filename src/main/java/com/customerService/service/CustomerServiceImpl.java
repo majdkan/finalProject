@@ -3,6 +3,7 @@ package com.customerService.service;
 import com.customerService.model.Customer;
 import com.customerService.model.CustomerStatus;
 import com.customerService.repository.CustomerRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,7 +63,7 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Customer getCustomerById(Long id) {
+    public Customer getCustomerById(Long id) throws JsonProcessingException {
         return customerRepository.getCustomerById(id);
     }
 
