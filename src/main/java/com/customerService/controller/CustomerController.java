@@ -57,8 +57,10 @@ public class CustomerController {
     }
 
     @GetMapping(value = "internalCustomer/{customerId}")
-    public InternalCustomer getInternalCustomerById(@PathVariable Long customerId){
+    public InternalCustomer getInternalCustomerById(@PathVariable Long customerId) {
+        System.out.println("hey");
         return internalCustomerService.getInternalCustomerById(customerId);
     }
+
 }
 
